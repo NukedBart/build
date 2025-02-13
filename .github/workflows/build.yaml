@@ -43,7 +43,7 @@ jobs:
         run: |
           echo "Determining build context..."
           if [[ "$EVENT_NAME" == "schedule" ]]; then
-            echo "is_nightly=true" >> $GITHUB_OUTPUT
+            echo "is_nightly=false" >> $GITHUB_OUTPUT
             echo "branch_server=4.0.0-DEV" >> $GITHUB_OUTPUT
             echo "branch_modules=4.0.0-DEV" >> $GITHUB_OUTPUT
             echo "branch_launcher=4.0.0-DEV" >> $GITHUB_OUTPUT
@@ -167,7 +167,7 @@ jobs:
   build-server:
     needs: prepare
     if: needs.prepare.outputs.proceed == 'true'
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     outputs:
       server_commit: ${{ steps.commit-hash.outputs.server_commit }}
     steps:
@@ -230,7 +230,7 @@ jobs:
         with:
           name: server-artifact
           path: ./SPT/Build/server/project/build/
-          retention-days: 1
+          retention-days: 365
           if-no-files-found: error
 
   build-modules:
